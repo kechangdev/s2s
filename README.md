@@ -3,7 +3,7 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/kechangdev/s2s?style=flat-square)](https://hub.docker.com/r/kechangdev/s2s)
 
 **kechangdev/s2s** 是一个带用户名/密码鉴权的 SOCKS5 代理，其 **出站流量** 会转发给目标 IP/端口的不带鉴权 SOCKS5 服务。  
-主要用途是：当已有的目标 SOCKS5 服务无法进行用户名/密码鉴权配置，但你又想较安全地在公网使用它时，可以通过本容器来“包裹”一层安全鉴权。
+主要用途是：当已有的目标 SOCKS5 服务无法进行用户名/密码鉴权配置，但你又想较安全地在公网使用它时，可以通过本容器来“包裹”一层安全鉴权，并限制目标网段。
 
 ## 功能特性
 
