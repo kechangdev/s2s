@@ -111,10 +111,12 @@ curl --socks5 127.0.0.1:1055 http://tailscale 内网服务
 
 4. **代理软件配置**
    在代理软件上配置 socks5 节点即可。（记得配置分流哦）
-   ![](https://github.com/kechangdev/s2s/blob/main/asset/IMG_1231.jpeg?raw=true)
    <p align="center">
-      <img src="https://github.com/kechangdev/s2s/blob/main/asset/IMG_1232.png?raw=true" alt="IMG_1232" width="450">
-      <img src="https://github.com/kechangdev/s2s/blob/main/asset/IMG_1233.png?raw=true" alt="IMG_1233" width="450">
+      <img src="https://github.com/kechangdev/s2s/blob/main/asset/IMG_1231.jpeg?raw=true" alt="IMG_1231" width="400">
+   </p>
+   <p align="center">
+      <img src="https://github.com/kechangdev/s2s/blob/main/asset/IMG_1232.png?raw=true" alt="IMG_1232" width="200">
+      <img src="https://github.com/kechangdev/s2s/blob/main/asset/IMG_1233.png?raw=true" alt="IMG_1233" width="200">
    </p>
 
 ## 常见问题
