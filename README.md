@@ -1,4 +1,4 @@
-# s2s
+# kechangdev/s2s
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/kechangdev/s2s?style=flat-square)](https://hub.docker.com/r/kechangdev/s2s)
 
