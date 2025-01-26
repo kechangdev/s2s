@@ -75,17 +75,15 @@ docker run -d --network host \
 
 1. **运行 Tailscale 容器**（提供无鉴权 Socks5）：
    ```bash
-   docker run -d \
-     --name tailscale-socks5 \
-     --restart=unless-stopped \
-     --cap-add=NET_ADMIN \
-     -e TS_USERSPACE=true \
-     -e TS_SOCKS5_SERVER=0.0.0.0:1055 \
-     -p 127.0.0.1:1055:1055 \
-     -v /var/www/tailscale-socks5:/var/lib/tailscale \
-     tailscale/tailscale:latest tailscaled \
-       --tun=userspace-networking \
-       --socks5-server=0.0.0.0:1055
+    docker run -d \
+      --name tailscale-socks5 \
+      --restart=unless-stopped \
+      --cap-add=NET_ADMIN \
+      -e TS_USERSPACE=true \
+      -e TS_SOCKS5_SERVER=0.0.0.0:1055 \
+      -p 127.0.0.1:1055:1055 \
+      -v /var/www/tailscale-socks5:/var/lib/tailscale \
+      tailscale/tailscale:latest tailscaled --tun=userspace-networking --socks5-server=0.0.0.0:1055
    ```
    - 这样在宿主机 `127.0.0.1:1055` 就能访问到一个无鉴权的 Socks5 代理。
 测试：
