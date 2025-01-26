@@ -10,27 +10,48 @@
 1. **带用户名/密码的 SOCKS5 入站**：外部连接需要正确的用户名/密码才能使用代理。  
 2. **无鉴权的 SOCKS5 出站**：将所有请求转发给指定的 SOCKS5 代理（不支持或未开启鉴权）。  
 3. **适用于 Tailscale**：常见场景是在一台服务器上只跑一个 **无鉴权** 的 Tailscale SOCKS5（例如 `127.0.0.1:1055`），再用本容器为它添加安全鉴权。
+4. **只代理特定 CIDR**：`VALID_CIDR` 支持配置多个网段，以 `;` 分隔
 
 ---
 
 ## 快速开始
 
-以下示例会启动本容器，监听本机 `45675` 端口，用户名/密码均设置为 `username` / `password`，并将流量转发给本机的无鉴权 SOCKS5 代理 `127.0.0.1:1055`。
-
-```bash
+### 示例 1：不限制任何网段（仅进行用户名/密码鉴权）
+```
 docker run -d --network host \
-  --name tailscale-s2s \
+  --restart=unless-stopped \
+  --name s2s \
   -e SOCKS5_USERNAME="username" \
   -e SOCKS5_PASSWORD="password" \
-  -e TS_SOCKS5_HOST="127.0.0.1" \
-  -e TS_SOCKS5_PORT="1055" \
+  -e T_SOCKS5_HOST="127.0.0.1" \
+  -e T_SOCKS5_PORT="1055" \
+  -e INBOUND_PORT="45675" \
+  kechangdev/s2s:latest
+```
+以上命令说明：
+
+- `--network host`：让容器能访问宿主机上 `127.0.0.1:1055`。
+- `INBOUND_PORT=45675`：本容器监听 `45675` 端口。
+- `T_SOCKS5_HOST=127.0.0.1` / `T_SOCKS5_PORT=1055`：将流量转发给无鉴权的 `socks5`。
+- `VALID_CIDR` 没有设置，默认为 `0.0.0.0/0`，即不限制目标 IP。
+
+### 示例 2：限制只代理 100.64.0.0/10 和 192.168.1.0/24 网段
+
+```
+docker run -d --network host \
+  --restart=unless-stopped \
+  --name s2s \
+  -e VALID_CIDR="100.64.0.0/10;192.168.1.0/24" \
+  -e SOCKS5_USERNAME="username" \
+  -e SOCKS5_PASSWORD="password" \
+  -e T_SOCKS5_HOST="127.0.0.1" \
+  -e T_SOCKS5_PORT="1055" \
   -e INBOUND_PORT="45675" \
   kechangdev/s2s:latest
 ```
 
-> **说明**：  
-> - `--network host` 通常用于让容器与宿主机共享网络命名空间，方便连接到本机的 Tailscale SOCKS5。也可根据需要使用其他网络模式，只要容器能访问 `TS_SOCKS5_HOST:TS_SOCKS5_PORT` 即可。  
-> - 如果想修改监听端口，只需在启动时更改 `INBOUND_PORT` 并相应映射端口。  
+如果 `100.64.10.1` 落在 `100.64.0.0/10` 网段，则会被成功代理；否则会被拒绝。
+`VALID_CIDR` 支持多个网段，使用 `;` 分隔。如果你只需要单个网段，可直接写 `VALID_CIDR="192.168.0.0/16"`。
 
 ---
 
