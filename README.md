@@ -46,9 +46,11 @@ docker run -d --network host \
 
 ---
 
-## 实际示例：与 Tailscale 搭配
+## 实际示例：使用代理软件访问 Tailscale 内网
 
-当你只想通过 Tailscale 暴露某条网络隧道时，可能只使用 Tailscale 自带的 SOCKS5 服务（无鉴权）不够安全。这里介绍如何在同一台服务器上将其“包装”成带鉴权 SOCKS5：
+你是否还在困扰 tailscale 客户端与 Clash 或 Quantumult X 等代理软件同一时刻只能运行一个吗？
+
+[tailscale Userspace networking mode](https://tailscale.com/kb/1112/userspace-networking) 只能使用 Tailscale 自带的 SOCKS5 服务（无鉴权），如果直接暴露在公网的话不够安全。所以我们考虑将端口映射到 `127.0.0.1:1055`，并通过 `kechangdev/s2s` 来暴露一个带鉴权的 Socks5 端口。
 
 1. **运行 Tailscale 容器**（提供无鉴权 Socks5）：
    ```bash
@@ -65,6 +67,10 @@ docker run -d --network host \
        --socks5-server=0.0.0.0:1055
    ```
    - 这样在宿主机 `127.0.0.1:1055` 就能访问到一个无鉴权的 Socks5 代理。
+测试：
+```
+curl --socks5 127.0.0.1:1055 http://tailscale 内网服务
+```
 
 2. **运行本项目容器 `kechangdev/s2s`**：
    ```bash
@@ -81,10 +87,12 @@ docker run -d --network host \
 
 3. **测试**：
    ```bash
-   curl -v --socks5 127.0.0.1:45675 -U username:password http://<tailscale内网地址>/test.html
+   curl -v --socks5 127.0.0.1:45675 -U username:password http://tailscale 内网服务
    ```
    若能正确返回目标页面内容，则说明整个代理链路正常。
 
+4. **代理软件配置**
+   在代理软件上配置 socks5 节点即可。
 ---
 
 ## 常见问题
