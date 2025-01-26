@@ -12,7 +12,6 @@
 3. **适用于 Tailscale**：常见场景是在一台服务器上只跑一个 **无鉴权** 的 Tailscale SOCKS5（例如 `127.0.0.1:1055`），再用本容器为它添加安全鉴权。
 4. **只代理特定目标**：环境变量 `VALID_CIDR` 支持配置多个网段，以 `;` 分隔
 
----
 
 ## 快速开始
 
@@ -53,7 +52,6 @@ docker run -d --network host \
 如果 `100.64.10.1` 落在 `100.64.0.0/10` 网段，则会被成功代理；否则会被拒绝。
 `VALID_CIDR` 支持多个网段，使用 `;` 分隔。如果你只需要单个网段，可直接写 `VALID_CIDR="192.168.0.0/16"`。
 
----
 
 ## 环境变量
 
@@ -65,8 +63,6 @@ docker run -d --network host \
 | `T_SOCKS5_PORT`  | `1055`      | **出站 SOCKS5** 的端口                                      |
 | `INBOUND_PORT`    | `45675`     | 本容器对外暴露的 SOCKS5 端口（带用户名/密码鉴权）            |
 | `VALID_CIDR`    | `0.0.0.0/0`     | 允许代理的目标网段（若目标是域名，脚本会本地解析域名并检查解析到的 IP 是否落在允许范围；只要解析列表中有一个地址在网段内，就会使用那个地址进行连接。）            |
-
----
 
 ## 实际示例：[使用代理软件访问 Tailscale 内网](https://blog.kechang.uk/en/article/1874fa24-e032-809f-bfe6-f00939247328)
 你是否还在困扰 tailscale 客户端与 Clash 或 Quantumult X 等代理软件同一时刻只能运行一个吗？
@@ -120,7 +116,6 @@ curl --socks5 127.0.0.1:1055 http://tailscale 内网服务
       <img src="https://github.com/kechangdev/s2s/blob/main/asset/IMG_1232.png?raw=true" alt="IMG_1232" width="450">
       <img src="https://github.com/kechangdev/s2s/blob/main/asset/IMG_1233.png?raw=true" alt="IMG_1233" width="450">
    </p>
----
 
 ## 常见问题
 
