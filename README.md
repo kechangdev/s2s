@@ -64,7 +64,7 @@ docker run -d --network host \
 | `TS_SOCKS5_HOST`  | `127.0.0.1` | **出站 SOCKS5** 的地址（例如 Tailscale 提供的 socks5）      |
 | `TS_SOCKS5_PORT`  | `1055`      | **出站 SOCKS5** 的端口                                      |
 | `INBOUND_PORT`    | `45675`     | 本容器对外暴露的 SOCKS5 端口（带用户名/密码鉴权）            |
-| `VALID_CIDR`    | `0.0.0.0/0`     | 允许代理的网段            |
+| `VALID_CIDR`    | `0.0.0.0/0`     | 允许代理的目标网段            |
 
 ---
 
@@ -95,17 +95,19 @@ curl --socks5 127.0.0.1:1055 http://tailscale 内网服务
 
 2. **运行本项目容器 `kechangdev/s2s`**：
    ```bash
-   docker run -d --network host \
-     --restart=unless-stopped \
-     --name tailscale-s2s \
-     -e SOCKS5_USERNAME="username" \
-     -e SOCKS5_PASSWORD="password" \
-     -e TS_SOCKS5_HOST="127.0.0.1" \
-     -e TS_SOCKS5_PORT="1055" \
-     -e INBOUND_PORT="45675" \
-     kechangdev/s2s:latest
+    docker run -d --network host \
+      --restart=unless-stopped \
+      --name s2s \
+      -e VALID_CIDR="100.64.0.0/10" \
+      -e SOCKS5_USERNAME="username" \
+      -e SOCKS5_PASSWORD="password" \
+      -e T_SOCKS5_HOST="127.0.0.1" \
+      -e T_SOCKS5_PORT="1055" \
+      -e INBOUND_PORT="45675" \
+      kechangdev/s2s:latest
    ```
    - `s2s` 会监听 `45675` 端口，并要求用户名/密码才可使用代理。
+   - `s2s` 在上述用户名密码鉴权后判断目标IP是否在目标网段 `100.64.0.0/10`（当 req_atyp = 0x03（域名），脚本会 本地解析 域名并检查解析到的 IP 是否落在允许范围；只要解析列表中有一个地址在网段内，就会使用那个地址进行连接）
 
 3. **测试**：
    ```bash
@@ -121,7 +123,7 @@ curl --socks5 127.0.0.1:1055 http://tailscale 内网服务
 
 1. **端口冲突或网络不通**  
    - 请确保 `INBOUND_PORT` 未被占用。  
-   - 若容器与宿主机网络隔离，需要保证容器能够访问 `TS_SOCKS5_HOST:TS_SOCKS5_PORT`（例如使用 `--network host` 或 Docker Compose 配置好网络）。
+   - 若容器与宿主机网络隔离，需要保证容器能够访问 `T_SOCKS5_HOST:T_SOCKS5_PORT`（例如使用 `--network host` 或 Docker Compose 配置好网络）。
 
 2. **如何在公网使用？**  
    - 确保服务器能被外网访问相应端口（如 `45675`）。  
