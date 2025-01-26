@@ -64,6 +64,7 @@ docker run -d --network host \
 | `TS_SOCKS5_HOST`  | `127.0.0.1` | **出站 SOCKS5** 的地址（例如 Tailscale 提供的 socks5）      |
 | `TS_SOCKS5_PORT`  | `1055`      | **出站 SOCKS5** 的端口                                      |
 | `INBOUND_PORT`    | `45675`     | 本容器对外暴露的 SOCKS5 端口（带用户名/密码鉴权）            |
+| `VALID_CIDR`    | `0.0.0.0/0`     | 允许代理的网段            |
 
 ---
 
