@@ -46,7 +46,7 @@ docker run -d --network host \
 
 ---
 
-## 实际示例：使用代理软件访问 Tailscale 内网
+## 实际示例：[使用代理软件访问 Tailscale 内网](https://blog.kechang.uk/en/article/1874fa24-e032-809f-bfe6-f00939247328)
 你是否还在困扰 tailscale 客户端与 Clash 或 Quantumult X 等代理软件同一时刻只能运行一个吗？
 
 [tailscale Userspace networking mode](https://tailscale.com/kb/1112/userspace-networking) 只能使用 Tailscale 自带的 SOCKS5 服务（无鉴权），如果直接暴露在公网的话不够安全。所以我们考虑将端口映射到 `127.0.0.1:1055`，并通过 `kechangdev/s2s` 来暴露一个带鉴权的 Socks5 端口。
