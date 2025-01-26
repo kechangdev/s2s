@@ -75,6 +75,7 @@ curl --socks5 127.0.0.1:1055 http://tailscale 内网服务
 2. **运行本项目容器 `kechangdev/s2s`**：
    ```bash
    docker run -d --network host \
+     --restart=unless-stopped \
      --name tailscale-s2s \
      -e SOCKS5_USERNAME="username" \
      -e SOCKS5_PASSWORD="password" \
@@ -92,7 +93,7 @@ curl --socks5 127.0.0.1:1055 http://tailscale 内网服务
    若能正确返回目标页面内容，则说明整个代理链路正常。
 
 4. **代理软件配置**
-   在代理软件上配置 socks5 节点即可。
+   在代理软件上配置 socks5 节点即可。（记得配置分流哦）
 ---
 
 ## 常见问题
