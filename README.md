@@ -1,6 +1,6 @@
 # s2s
 
-![https://img.shields.io/badge/github]
+![Github](https://img.shields.io/badge/github)
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/kechangdev/s2s?style=flat-square)](https://hub.docker.com/r/kechangdev/s2s)
 
