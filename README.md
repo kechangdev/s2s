@@ -89,23 +89,10 @@ docker run -d --network host \
 
 ## 常见问题
 
-1. **无鉴权 Socks5 无法修改？**  
-   正是本项目要解决的场景——通过容器再封一层用户名/密码鉴权。
-
-2. **端口冲突或网络不通**  
+1. **端口冲突或网络不通**  
    - 请确保 `INBOUND_PORT` 未被占用。  
    - 若容器与宿主机网络隔离，需要保证容器能够访问 `TS_SOCKS5_HOST:TS_SOCKS5_PORT`（例如使用 `--network host` 或 Docker Compose 配置好网络）。
 
-3. **如何在公网使用？**  
+2. **如何在公网使用？**  
    - 确保服务器能被外网访问相应端口（如 `45675`）。  
    - 强烈建议使用 **TLS/SSH 隧道** 或其他方式加固安全。仅使用 SOCKS5 + 用户名/密码在公网暴露仍存在潜在风险（暴力穷举、抓包等）。
-
----
-
-## License
-
-本项目基于 [MIT License](./LICENSE) 发布。欢迎提交 Issue 或 Pull Request 进行讨论与改进。
-
----
-
-如有任何疑问或需求，欢迎随时在 [GitHub](https://github.com/kechangdev/s2s) 提出 Issue。祝使用顺利！
