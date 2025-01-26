@@ -1,6 +1,5 @@
 # s2s
-
-[![Github](https://img.shields.io/docker/pulls/kechangdev/s2s?style=flat-square)](https://github.com/kechangdev/s2s)
+[![Github](https://img.shields.io/badge/Github)](https://github.com/kechangdev/s2s)
 [![Docker Pulls](https://img.shields.io/docker/pulls/kechangdev/s2s?style=flat-square)](https://hub.docker.com/r/kechangdev/s2s)
 
 **kechangdev/s2s** 是一个带用户名/密码鉴权的 SOCKS5 代理，其 **出站流量** 会转发给目标 IP/端口的不带鉴权 SOCKS5 服务。  
